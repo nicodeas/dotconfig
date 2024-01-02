@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Cloning dotfiles"
-git clone --recursive https://github.com/nicodeas/dotconfig.git $HOME/dotconfig
+git clone --recurse-submodules https://github.com/nicodeas/dotconfig.git $HOME/dotconfig
 
 MAC_OS=false
 

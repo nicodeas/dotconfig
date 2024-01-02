@@ -3,5 +3,5 @@
 # Setup
 
 ```
-bash <(curl -s https://github.com/nicodeas/dotconfig)
+bash <(curl -s https://raw.githubusercontent.com/nicodeas/dotconfig/main/install.sh)
 ```

@@ -85,7 +85,15 @@ check_install_neovim
 check_install_nvm
 
 cd $HOME/dotconfig
-echo "Creating Symlinks"
-echo
 
-stow */
+for file in $HOME/dotconfig/*; do
+  if [ -d ${file} ]; then
+    read -p "Create symlink for $(basename $file)? (y/n): " choice
+    if [ "$choice" = "y" ] || [ "$choice" = "Y" ]; then
+      stow $(basename $file)
+      echo -e "${GREEN}$(basename $file)${CLEAR} symlink ${GREEN}created${CLEAR}"
+    else
+      echo -e "${YELLOW}SKIPPED${CLEAR}"
+    fi
+  fi
+done

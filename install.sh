@@ -75,11 +75,12 @@ check_installation() {
     fi
 }
 
-software_list=("git" "pyenv" "docker" "tmux" "fzf" "lazygit" "stow")
+software_list=("git" "pyenv" "docker" "tmux" "fzf" "lazygit" "stow" "wezterm")
 
 for software in "${software_list[@]}"; do
     check_installation "$software"
 done
+
 
 check_install_neovim
 check_install_nvm

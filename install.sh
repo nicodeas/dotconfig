@@ -71,6 +71,7 @@ check_installation() {
           brew install $1
         else
           echo -e "${YELLOW}Installation of $1 skipped.${CLEAR}"
+          echo
         fi
     fi
 }
@@ -93,8 +94,10 @@ for file in $HOME/dotconfig/*; do
     if [ "$choice" = "y" ] || [ "$choice" = "Y" ]; then
       stow $(basename $file)
       echo -e "${GREEN}$(basename $file)${CLEAR} symlink ${GREEN}created${CLEAR}"
+      echo
     else
       echo -e "${YELLOW}SKIPPED${CLEAR}"
+      echo
     fi
   fi
 done

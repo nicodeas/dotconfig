@@ -89,3 +89,6 @@ $character"""
 
 [gcloud]
 disabled = true
+
+[rlang]
+disabled = true

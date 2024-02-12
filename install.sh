@@ -76,7 +76,7 @@ check_installation() {
     fi
 }
 
-software_list=("git" "pyenv" "docker" "tmux" "fzf" "lazygit" "stow" "wezterm")
+software_list=("git" "pyenv" "docker" "tmux" "fzf" "lazygit" "stow" "wezterm" "starship")
 
 for software in "${software_list[@]}"; do
     check_installation "$software"

@@ -76,12 +76,29 @@ check_installation() {
     fi
 }
 
-software_list=("git" "pyenv" "docker" "tmux" "fzf" "lazygit" "stow" "wezterm" "starship")
+software_list=("git" "pyenv" "docker" "tmux" "fzf" "lazygit" "stow" "wezterm")
 
 for software in "${software_list[@]}"; do
     check_installation "$software"
 done
 
+setup_shell(){
+  if [-d "~/.oh-my-zsh"]; then
+    echo -e "${YELLOW}oh my zsh has not been setup.${CLEAR}"
+    echo "Set up Oh-My-Zsh? (y/n)"
+    read choice
+    if [ "$choice" = "y" ] || [ "$choice" = "Y" ]; then
+      # install oh-my-zsh
+      sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+      # zsh-autosuggestions
+      git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+      # zsh-syntax-highlighting
+      git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+      check_installation "starship"
+    fi
+    echo -e "${YELLOW}SKIPPED${CLEAR}"
+  fi
+}
 
 check_install_neovim
 check_install_nvm

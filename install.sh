@@ -1,12 +1,5 @@
 #!/bin/bash
 
-if [  ! -d $HOME/dotconfig ]; then
-  echo "Cloning dotfiles"
-  git clone --recurse-submodules https://github.com/nicodeas/dotconfig.git $HOME/dotconfig
-else
-  git pull
-fi
-
 MAC_OS=false
 
 RED='\033[1;31m'
@@ -81,7 +74,7 @@ check_installation() {
     fi
 }
 
-software_list=("git" "pyenv" "docker" "tmux" "fzf" "lazygit" "stow" "wezterm")
+software_list=("pyenv" "docker" "tmux" "fzf" "lazygit" "stow" "wezterm")
 
 for software in "${software_list[@]}"; do
     check_installation "$software"

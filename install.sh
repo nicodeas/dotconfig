@@ -1,7 +1,11 @@
 #!/bin/bash
 
-echo "Cloning dotfiles"
-git clone --recurse-submodules https://github.com/nicodeas/dotconfig.git $HOME/dotconfig
+if [  ! -d $HOME/dotconfig ]; then
+  echo "Cloning dotfiles"
+  git clone --recurse-submodules https://github.com/nicodeas/dotconfig.git $HOME/dotconfig
+else
+  git pull
+fi
 
 MAC_OS=false
 
@@ -24,6 +28,7 @@ check_install_homebrew() {
     fi
 }
 
+# WIP for when I add linux installation
 if [[ "$OSTYPE" == "darwin"* ]]; then
   MAC_OS=true
   check_install_homebrew
@@ -81,9 +86,8 @@ software_list=("git" "pyenv" "docker" "tmux" "fzf" "lazygit" "stow" "wezterm")
 for software in "${software_list[@]}"; do
     check_installation "$software"
 done
-
 setup_shell(){
-  if [-d "~/.oh-my-zsh"]; then
+  if [ -d "~/.oh-my-zsh" ]; then
     echo -e "${YELLOW}oh my zsh has not been setup.${CLEAR}"
     echo "Set up Oh-My-Zsh? (y/n)"
     read choice
@@ -98,10 +102,14 @@ setup_shell(){
     fi
     echo -e "${YELLOW}SKIPPED${CLEAR}"
   fi
+  echo -e "${GREEN}oh my zsh${CLEAR} has already been setup"
 }
 
 check_install_neovim
 check_install_nvm
+setup_shell
+
+echo
 
 cd $HOME/dotconfig
 

@@ -31,7 +31,8 @@ check_install_neovim(){
     if [ -x "$(command -v nvim)" ]; then
         echo -e "${GREEN}Neovim${CLEAR} is already installed."
     else
-        read -p "Neovim is not installed. Do you want to install it? (y/n): " choice
+        echo -en "${YELLOW}Neovim${CLEAR} is not installed. Do you want to install it? (y/n): "
+        read choice
         if [ "$choice" = "y" ] || [ "$choice" = "Y" ]; then
           echo "Installing Neovim..."
           if [[ MAC_OS ]]; then
@@ -49,7 +50,8 @@ check_install_nvm(){
   if [[ -s "$HOME/.nvm/" ]]; then
       echo -e "${GREEN}NVM${CLEAR} is already installed."
   else
-      read -p "NVM is not installed. Do you want to install it? (y/n): " choice
+      echo -en "${GREEN}NVM${CLEAR} is not installed. Do you want to install it? (y/n): " 
+      read choice
       if [ "$choice" = "y" ] || [ "$choice" = "Y" ]; then
         echo "Installing NVM..."
         curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash

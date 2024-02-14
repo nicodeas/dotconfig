@@ -1,7 +1,5 @@
 #!/bin/bash
 
-MAC_OS=false
-
 RED='\033[1;31m'
 GREEN='\033[1;32m'
 YELLOW='\033[1;33m'
@@ -23,8 +21,10 @@ check_install_homebrew() {
 
 # WIP for when I add linux installation
 if [[ "$OSTYPE" == "darwin"* ]]; then
-  MAC_OS=true
   check_install_homebrew
+else
+  echo -e "${RED}INSTALLSCRIPT NOT AVAILABLE FOR OS"
+  exit 1
 fi
 
 check_install_neovim(){
@@ -32,10 +32,10 @@ check_install_neovim(){
         echo -e "${GREEN}Neovim${CLEAR} is already installed."
     else
         echo -en "${YELLOW}Neovim${CLEAR} is not installed. Do you want to install it? (y/n): "
-        read choice
+        read -r choice
         if [ "$choice" = "y" ] || [ "$choice" = "Y" ]; then
           echo "Installing Neovim..."
-          if [[ MAC_OS ]]; then
+          if [[ $MAC_OS ]]; then
             brew install neovim
           else
             echo "Installation not configured for Linux"
@@ -51,7 +51,7 @@ check_install_nvm(){
       echo -e "${GREEN}NVM${CLEAR} is already installed."
   else
       echo -en "${GREEN}NVM${CLEAR} is not installed. Do you want to install it? (y/n): " 
-      read choice
+      read -r choice
       if [ "$choice" = "y" ] || [ "$choice" = "Y" ]; then
         echo "Installing NVM..."
         curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
@@ -62,15 +62,15 @@ check_install_nvm(){
 }
 
 check_installation() {
-    if [ -x "$(command -v $1)" ]; then
+    if [ -x "$(command -v "$1")" ]; then
         echo -e "${GREEN}$1${CLEAR} is already installed."
     else
         echo
         echo -en "${YELLOW}$1${CLEAR} is not installed. Do you want to install it? (y/n): "
-        read choice
+        read -r choice
         if [ "$choice" = "y" ] || [ "$choice" = "Y" ]; then
           echo "Installing $1..."
-          brew install $1
+          brew install "$1"
         else
           echo -e "${YELLOW}Installation of $1 skipped.${CLEAR}"
           echo
@@ -92,23 +92,30 @@ software_list=( "pyenv"
 for software in "${software_list[@]}"; do
     check_installation "$software"
 done
+
 setup_shell(){
-  if [ -d "~/.oh-my-zsh" ]; then
+  if [ ! -d "$HOME/.oh-my-zsh/" ]; then
+
+    echo
     echo -e "${YELLOW}oh my zsh has not been setup.${CLEAR}"
-    echo -en "Set up ${GREEN}Oh-My-Zsh${CLEAR}? (y/n)"
-    read choice
+    echo -en "Set up ${GREEN}Oh-My-Zsh${CLEAR}? (y/n) "
+    read -r choice
+
     if [ "$choice" = "y" ] || [ "$choice" = "Y" ]; then
       # install oh-my-zsh
       sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
       # zsh-autosuggestions
-      git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+      git clone "https://github.com/zsh-users/zsh-autosuggestions" "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
       # zsh-syntax-highlighting
-      git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+      git clone "https://github.com/zsh-users/zsh-syntax-highlighting.git" "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting"
       check_installation "starship"
+    else
+      echo -e "${YELLOW}SKIPPED${CLEAR}"
     fi
-    echo -e "${YELLOW}SKIPPED${CLEAR}"
+
+  else
+    echo -e "${GREEN}oh my zsh${CLEAR} has already been setup"
   fi
-  echo -e "${GREEN}oh my zsh${CLEAR} has already been setup"
 }
 
 check_install_neovim
@@ -117,15 +124,15 @@ setup_shell
 
 echo
 
-cd $HOME/dotconfig
+cd "$HOME/dotconfig" || exit 1
 
-for file in $HOME/dotconfig/*; do
-  if [ -d ${file} ]; then
-    echo -n "Create symlink for $(basename $file)? (y/n): "
-    read choice
+for file in "$HOME/dotconfig"/*; do
+  if [ -d "${file}" ]; then
+    echo -n "Create symlink for $(basename "$file")? (y/n): "
+    read -r choice
     if [ "$choice" = "y" ] || [ "$choice" = "Y" ]; then
-      stow $(basename $file)
-      echo -e "${GREEN}$(basename $file)${CLEAR} symlink ${GREEN}created${CLEAR}"
+      stow "$(basename "$file")"
+      echo -e "${GREEN}$(basename "$file")${CLEAR} symlink ${GREEN}created${CLEAR}"
       echo
     else
       echo -e "${YELLOW}SKIPPED${CLEAR}"

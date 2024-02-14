@@ -47,7 +47,7 @@ check_install_neovim(){
 
 check_install_nvm(){
   if [[ -s "$HOME/.nvm/" ]]; then
-        echo -e "${GREEN}NVM${CLEAR} is already installed."
+      echo -e "${GREEN}NVM${CLEAR} is already installed."
   else
       read -p "NVM is not installed. Do you want to install it? (y/n): " choice
       if [ "$choice" = "y" ] || [ "$choice" = "Y" ]; then
@@ -63,7 +63,9 @@ check_installation() {
     if [ -x "$(command -v $1)" ]; then
         echo -e "${GREEN}$1${CLEAR} is already installed."
     else
-        read -p "$1 is not installed. Do you want to install it? (y/n): " choice
+        echo
+        echo -en "${YELLOW}$1${CLEAR} is not installed. Do you want to install it? (y/n): "
+        read choice
         if [ "$choice" = "y" ] || [ "$choice" = "Y" ]; then
           echo "Installing $1..."
           brew install $1
@@ -74,7 +76,16 @@ check_installation() {
     fi
 }
 
-software_list=("pyenv" "docker" "tmux" "fzf" "lazygit" "stow" "wezterm")
+software_list=( "pyenv"
+                "docker"
+                "tmux"
+                "fzf"
+                "lazygit"
+                "stow"
+                "wezterm"
+                "jq"
+                "yq"
+              )
 
 for software in "${software_list[@]}"; do
     check_installation "$software"
@@ -82,7 +93,7 @@ done
 setup_shell(){
   if [ -d "~/.oh-my-zsh" ]; then
     echo -e "${YELLOW}oh my zsh has not been setup.${CLEAR}"
-    echo "Set up Oh-My-Zsh? (y/n)"
+    echo -en "Set up ${GREEN}Oh-My-Zsh${CLEAR}? (y/n)"
     read choice
     if [ "$choice" = "y" ] || [ "$choice" = "Y" ]; then
       # install oh-my-zsh
@@ -108,7 +119,8 @@ cd $HOME/dotconfig
 
 for file in $HOME/dotconfig/*; do
   if [ -d ${file} ]; then
-    read -p "Create symlink for $(basename $file)? (y/n): " choice
+    echo -n "Create symlink for $(basename $file)? (y/n): "
+    read choice
     if [ "$choice" = "y" ] || [ "$choice" = "Y" ]; then
       stow $(basename $file)
       echo -e "${GREEN}$(basename $file)${CLEAR} symlink ${GREEN}created${CLEAR}"

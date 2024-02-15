@@ -22,7 +22,5 @@ config.window_decorations = "RESIZE" -- this cant be none as it won't allow resi
 --I dont see myself using tabs when i have tmux for this
 config.enable_tab_bar = false
 
-config.window_background_opacity = 0.97
-
 -- and finally, return the configuration to wezterm
 return config

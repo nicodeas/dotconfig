@@ -87,6 +87,8 @@ $container\
 $shell\
 $character"""
 
+add_newline = false
+
 [gcloud]
 disabled = true
 

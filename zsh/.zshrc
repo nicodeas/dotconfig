@@ -142,4 +142,8 @@ if [ -f '/Users/$USER/software/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/
 if [ -f '/Users/$USER/software/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/$USER/software/google-cloud-sdk/completion.zsh.inc'; fi
 
 
+# starship
 eval "$(starship init zsh)"
+
+# zoxide
+eval "$(zoxide init zsh)"

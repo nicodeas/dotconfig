@@ -87,6 +87,7 @@ software_list=( "pyenv"
                 "wezterm"
                 "jq"
                 "yq"
+                "zoxide"
               )
 
 for software in "${software_list[@]}"; do

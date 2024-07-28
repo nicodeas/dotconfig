@@ -11,7 +11,7 @@ if wezterm.config_builder then
 end
 
 -- config.colors = require("themes.kanagawa")
-config.color_scheme = "tokyonight_night"
+config.color_scheme = "Rosé Pine (Gogh)"
 config.font_size = 12.5
 
 -- still figuring out how to set neovim color scheme to match this transparency

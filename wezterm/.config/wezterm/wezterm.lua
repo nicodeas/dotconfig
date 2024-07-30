@@ -12,7 +12,7 @@ end
 
 -- config.colors = require("themes.kanagawa")
 config.color_scheme = "Rosé Pine (Gogh)"
-config.font_size = 12.5
+config.font_size = 15
 
 -- still figuring out how to set neovim color scheme to match this transparency
 -- config.window_background_opacity = 0.8
